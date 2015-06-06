@@ -1,0 +1,80 @@
+server {
+    listen       80;
+    server_name  {{ nginx_server_name }};
+    root /srv/wordpress/;
+
+    access_log  /var/log/nginx/access.log ltsv;
+    error_log  /var/log/nginx/error.log;
+
+    client_max_body_size 64M;
+
+    proxy_set_header Host $host;
+
+    # Deny access to any files with a .php extension in the uploads directory
+    location ~* /(?:uploads|files)/.*\.php$ {
+        deny all;
+    }
+
+    location / {
+        index index.php index.html index.htm;
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~* \.(gif|jpg|jpeg|png|css|js)$ {
+        expires max;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+
+        include fastcgi_params;
+        fastcgi_read_timeout 120;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass  unix:/var/run/php-fpm/wordpress.sock;
+        fastcgi_index index.php;
+        fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass_header "X-Accel-Redirect";
+        fastcgi_pass_header "X-Accel-Expires";
+    }
+}
+
+server {
+    listen       443;
+    server_name  {{ nginx_server_name }};
+    root /srv/wordpress/;
+
+    access_log  /var/log/nginx/access.log ltsv;
+    error_log  /var/log/nginx/error.log;
+
+    client_max_body_size 64M;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-SSL 1;
+
+    # Deny access to any files with a .php extension in the uploads directory
+    location ~* /(?:uploads|files)/.*\.php$ {
+        deny all;
+    }
+
+    location / {
+        index index.php index.html index.htm;
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~* \.(gif|jpg|jpeg|png|css|js)$ {
+        expires max;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+
+        include fastcgi_params;
+        fastcgi_read_timeout 120;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass  unix:/var/run/php-fpm/wordpress.sock;
+        fastcgi_index index.php;
+        fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass_header "X-Accel-Redirect";
+        fastcgi_pass_header "X-Accel-Expires";
+    }
+}

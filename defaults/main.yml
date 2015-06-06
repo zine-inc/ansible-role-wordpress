@@ -1,2 +1,16 @@
 ---
-# defaults file for ansible-role-wordpress
+wp_version: 4.1.1-ja
+wp_user: app
+wp_db_name: wordpress
+wp_db_user: wordpress
+wp_db_password: wordpress
+wp_db_prefix: wp_
+
+nginx_server_name: example.com
+nginx_htpasswd_name: admin
+nginx_htpasswd_password: password
+
+mysql_port: 3306
+
+auto_up_disable: false
+core_update_level: true

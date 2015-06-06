@@ -1,2 +1,9 @@
 ---
-# handlers file for ansible-role-wordpress
+- name: restart mysql
+  service: name=mysqld state=restarted enabled=yes
+
+- name: restart nginx
+  service: name=nginx state=restarted enabled=yes
+
+- name: restart php-fpm
+  service: name=php-fpm state=restarted enabled=yes
