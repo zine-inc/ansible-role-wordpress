@@ -1,5 +1,5 @@
 ---
-wp_version: 4.1.1-ja
+wp_version: 4.2.2-ja
 wp_user: app
 wp_db_name: wordpress
 wp_db_user: wordpress

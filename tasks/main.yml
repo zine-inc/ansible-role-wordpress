@@ -81,8 +81,14 @@
 - name: Create Wordpress database user
   mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host='localhost' state=present
 
+# - name: Copy Wordpress config file
+#   template: src=wp-config.php.j2 dest=/srv/wordpress/
+
+# SEE ALSO: https://github.com/ansible/ansible/issues/9526
 - name: Copy Wordpress config file
-  template: src=wp-config.php.j2 dest=/srv/wordpress/
+  template: src=wp-config.php.j2 dest=/tmp/
+- name: Move Wordpress config file
+  command: mv /tmp/wp-config.php /srv/wordpress/
 
 - name: Change ownership of Wordpress installation
   file: path=/srv/wordpress/ owner={{ wp_user }} group={{ wp_user }} state=directory recurse=yes
