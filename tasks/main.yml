@@ -121,7 +121,7 @@
   notify: restart php-fpm
 
 - name: Copy php-fpm configuration
-  template: src=wordpress.conf.j2 dest=/etc/php-fpm.d/
+  template: src=wordpress.conf.j2 dest=/etc/php-fpm.d/wordpress.conf
   notify: restart php-fpm
 
 - name: Start php-fpm Service
