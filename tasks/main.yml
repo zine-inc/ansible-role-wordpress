@@ -10,7 +10,6 @@
   with_items:
     - mysql-devel
     - mysql-server
-    - libselinux-python
     - libsemanage-python
 
 - name: Install mysql python module (via yum)
@@ -43,7 +42,10 @@
 
 ######################################################################## nginx
 - name: Install nginx
-  yum: name=nginx state=present
+  yum: name={{ item }} state=present
+  with_items:
+    - python-passlib
+    - nginx
 
 - name: Create nginx htpasswd
   htpasswd: path=/etc/nginx/.htpasswd name={{ nginx_htpasswd_name }} password={{ nginx_htpasswd_password }} owner=root group=root mode=0640
