@@ -88,7 +88,7 @@
 
 # SEE ALSO: https://github.com/ansible/ansible/issues/9526
 - name: Copy Wordpress config file
-  template: src=wp-config.php.j2 dest=/tmp/
+  template: src=wp-config.php.j2 dest=/tmp/wp-config.php
 - name: Move Wordpress config file
   command: mv /tmp/wp-config.php /srv/wordpress/
 
