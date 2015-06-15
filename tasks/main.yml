@@ -31,7 +31,7 @@
 
 - name: Configure SELinux to start mysql on any port
   seboolean: name=mysql_connect_any state=true persistent=yes
-  when: ansible_selinux.status == "enabled"
+  when: ansible_selinux is defined and ansible_selinux.status == "enabled"
 
 - name: Create Mysql configuration file
   template: src=my.cnf.j2 dest=/etc/my.cnf
@@ -111,6 +111,7 @@
     - php-xml
     - php-gd
     - php-mcrypt
+    - php-opcache
     - phpMyAdmin
 
 - name: Change mode of session save path
